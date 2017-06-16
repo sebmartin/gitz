@@ -52,9 +52,9 @@ bindkey $FAVOURITE_KEY gitz #-favourite
 
 # load plugins
 
-local PLUGINS=(menu recent append-path)
-for plugin in $PLUGINS; do
-	eval ". $(dirname $0)/gitz-$plugin.zsh"
+GITZ_COMMANDS=(recent append-path)
+for command in menu $GITZ_COMMANDS; do
+	eval ". $(dirname $0)/gitz-$command.zsh"
 done
 
 # utilities
@@ -68,11 +68,12 @@ local is_git_command() {
 	[[ $LBUFFER[(w)1] == 'git' ]] || which $LBUFFER[(w)1] | grep 'aliased to git ' > /dev/null 2>&1
 }
 
-_gitz-append-text() {
+gitz-append-text() {
+	local text=$1
 	if [[ $LBUFFER[-1] != ' ' ]]; then
-		result=" $result"
+		text=" $result"
 	fi
 
-	zle -U "$result "
+	zle -U "$text "
 	zle redisplay
 }
