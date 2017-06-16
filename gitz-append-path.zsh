@@ -17,9 +17,6 @@ _gitz-append-path-menu-item() {
 	echo "append path -- fuzzy find files and append at the end of the command, separating with ' -- '"
 }
 
-# Shortcut
-_gitz-shortcut-P() {
-	_gitz-append-path
+_gitz-append-path-shortcut() {
+	echo "P"
 }
-local SHORTCUT_KEY="${GITZ_MAIN_KEY}P"
-bindkey $SHORTCUT_KEY gitz

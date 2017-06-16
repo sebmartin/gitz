@@ -15,9 +15,6 @@ _gitz-recent-menu-item() {
 	echo "recent -- recent HEAD -- values"
 }
 
-# Shortcut
-_gitz-shortcut-U() {
-	_gitz-recent
+_gitz-recent-shortcut() {
+	echo "R"
 }
-local SHORTCUT_KEY="${GITZ_MAIN_KEY}U"
-bindkey $SHORTCUT_KEY gitz

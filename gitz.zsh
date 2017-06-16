@@ -2,7 +2,7 @@
 
 # enabled gitz commans
 
-GITZ_COMMANDS=(recent unmerged tags append-path)
+GITZ_COMMANDS=(recent unmerged graph tags append-path)
 
 # gitz main plugin chooser menu
 
@@ -57,6 +57,15 @@ bindkey $FAVOURITE_KEY gitz #-favourite
 # load plugins
 for command in menu $GITZ_COMMANDS; do
 	eval ". $(dirname $0)/gitz-$command.zsh"
+
+	# load shortcut, if any
+	local shortcut=$(eval "_gitz-$command-shortcut 2>/dev/null")
+	if [ -n "$shortcut" ]; then
+		eval "_gitz-shortcut-$shortcut() { _gitz-$command }"
+
+		local shortcut_key="${GITZ_MAIN_KEY}$shortcut"
+		bindkey $shortcut_key gitz
+	fi
 done
 
 # utilities
