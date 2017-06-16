@@ -12,7 +12,7 @@ _gitz-recent() {
 }
 
 _gitz-recent-menu-item() {
-	echo "recent -- recent HEAD values"
+	echo "recent -- recent HEAD -- values"
 }
 
 # Shortcut

@@ -1,5 +1,9 @@
 #! /bin/zsh
 
+# enabled gitz commans
+
+GITZ_COMMANDS=(recent unmerged tags append-path)
+
 # gitz main plugin chooser menu
 
 local MAIN=menu
@@ -51,8 +55,6 @@ _gitz-favourite() {
 bindkey $FAVOURITE_KEY gitz #-favourite
 
 # load plugins
-
-GITZ_COMMANDS=(recent append-path)
 for command in menu $GITZ_COMMANDS; do
 	eval ". $(dirname $0)/gitz-$command.zsh"
 done
