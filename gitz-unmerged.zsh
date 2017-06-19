@@ -1,11 +1,6 @@
 _gitz-unmerged() {
-	local list=$(git branch --sort=-committerdate --no-merged)
+	local list=$(git branch --sort=-committerdate --no-merged | sed 's/^ *//')
 	local result=$(echo $list | fzf --height=25% --reverse --header='Unmerged branches, by last commit date')
-	
-	if [[ -z $result ]]; then
-		zle redisplay
-		return
-	fi
 
 	gitz-append-text $result
 }
