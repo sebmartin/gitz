@@ -1,2 +1,2 @@
 # gitz
-git + fzf = :heart:
+git + fzf = 🏎💨
