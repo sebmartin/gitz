@@ -1,6 +1,6 @@
 #! /bin/zsh
 
-# enabled gitz commans
+# enabled gitz commands
 
 GITZ_COMMANDS=(recent unmerged graph tags append-path)
 
@@ -11,19 +11,14 @@ local MAIN_KEY='~'
 GITZ_MAIN_KEY=$MAIN_KEY
 
 _gitz-main() {
-	if ! is_in_git_repo || ! is_git_command; then
+	if ! is_in_git_repo || ! is_gitish_command; then
 		# Do nothing, append the bound key as if nothing got triggered
 		LBUFFER="$LBUFFER$KEYS"
 		return
 	fi
 
-	if (( $(echo "$LBUFFER" | wc -w) == 1 )); then
+	if (( $(echo "$LBUFFER" | wc -w) == 1 )) && is_git_command; then
 		# If there's only one word, present menu of git commands
-
-
-		# TODO : account for gco and other aliases that implicitly set the git command
-		
-
 		_gitz-git-command
 		return
 	fi
@@ -47,7 +42,7 @@ _gitz-main() {
 zle -N gitz _gitz-main
 bindkey $MAIN_KEY gitz
 
-# gitz favourite 
+# gitz favourite
 
 local FAVOURITE=recent
 local FAVOURITE_KEY='`'
@@ -62,7 +57,6 @@ _gitz-favourite() {
 	eval "_gitz-$FAVOURITE"
 }
 
-# zle -N gitz-favourite _gitz-favourite
 bindkey $FAVOURITE_KEY gitz #-favourite
 
 # load plugins
@@ -121,12 +115,19 @@ _gitz-git-command() {
 # utilities
 
 local is_in_git_repo() {
-  git rev-parse HEAD > /dev/null 2>&1
+ 	git rev-parse HEAD > /dev/null 2>&1
 }
 
 local is_git_command() {
-	# succeeds if command is `git` or a shell alias to `git`
+	# succeeds if
+	# - command is `git`
+	# - a shell alias to `git`
 	[[ $LBUFFER[(w)1] == 'git' ]] || which $LBUFFER[(w)1] | grep 'aliased to git ' > /dev/null 2>&1
+}
+
+local is_gitish_command() {
+	# other commands that can use the ref look up but won't trigger the git menu auto complete
+	is_git_command || [[ $LBUFFER[(w)1] == 'tig' ]]
 }
 
 gitz-append-text() {
