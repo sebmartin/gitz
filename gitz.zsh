@@ -63,7 +63,7 @@ bindkey $FAVOURITE_KEY gitz #-favourite
 for command in menu $GITZ_COMMANDS; do
 	eval ". $(dirname $0)/gitz-$command.zsh"
 
-	load shortcut, if any
+	# load shortcut, if any
 	local shortcut=$(eval "_gitz-$command-shortcut 2>/dev/null")
 	if [ -n "$shortcut" ]; then
 		eval "_gitz-shortcut-$shortcut() { _gitz-$command }"
